@@ -1,0 +1,165 @@
+@startuml
+' ==============================
+' クラス
+' ==============================
+' ------------------------------
+' プレイヤーと敵
+' ------------------------------
+abstract Actor{
+	+ BaseStatus BaseStatus
+	+ Vecotr2 position
+	+ ItemManager inventory
+	+ void move(int x, int y)
+	+ void attack(Actor target)
+}
+class PlayableActor{
+}
+abstract Enemy{}
+' --- 基礎ステータス ---
+struct BaseStatus{
+	int health
+	' TRPGっぽいステータス構成
+	' 体力
+	int CON
+	' 体格
+	int SIZ
+	' 敏捷
+	int DEX
+	' 魅力
+	int APP
+	' 知力
+	int INT
+	' 精神力
+	int POW
+	' 教養
+	int EDU
+	' 幸運
+	int LUK
+	' 自分が持ってる経験値
+	int EXP
+	' 倒した相手に与える経験値
+	int XP
+}
+' --- 戦闘ステータス ---
+struct CombatStatus{
+	int AttackPower
+	int MagicPower
+	int AttackResist
+	int MagicResist
+}
+' --- 生活ステータス ---
+struct LifeStatus{
+	int 信頼度
+	int スタミナ
+}
+' --- エロステ ---
+struct SexualStatus{
+	int 性欲
+	int えっち熟練度
+	int 感度
+	int 妊娠率
+	int 危険日
+}
+struct ActivityCount{
+	int 性交回数
+	int プレイごとのカウント
+}
+
+' ------------------------------
+' アイテム
+' ------------------------------
+class ItemManager{
+	+ Item[] items
+	+ item[] equipments
+	+ void useItem(Item item)
+	+ void equip(Equipment equipment)
+}
+abstract Item{
+	+ string name
+	+ string description
+	+ void use(Actor target)
+}
+abstract Equipment{
+	+ void Remove(Equipment)
+}
+' 着脱機能
+' 呪いの装備とかは「何もしないRemove」で実装する
+abstract Weapon{
+	+
+}
+abstract Armor{}
+
+' ------------------------------
+' ワールド
+' ------------------------------
+abstract Map{
+	+ void loadMap()
+	+ void renderMap()
+}
+abstract FieldObject{}
+abstract Facility{}
+abstract Location{}
+
+' ==============================
+' 関係
+' ==============================
+' ------------------------------
+' Actor
+' ------------------------------
+Actor <|-- PlayableActor
+Actor <|-- Enemy
+Actor *-- ItemManager : Itemを管理
+Actor *-- BaseStatus : ステータスを管理
+Actor *-- CombatStatus : 戦闘時参照
+Actor *-- SexualStatus : えっち時やえっちイベントで参照
+PlayableActor *-- LifeStatus
+
+' ------------------------------
+' Enemy
+' ------------------------------
+Enemy <|-- Goblin
+Enemy <|-- Slime
+Enemy <|-- AnyOtherEnemy
+
+' ------------------------------
+' Map
+' ------------------------------
+Map <|-- Town
+Map <|-- Dungeon
+Map <|-- Field
+Map <|-- FieldObject
+' --- Mapと他のクラス ---
+Map o-- Enemy : 出現敵
+Map o-- Item : フィールドアイテム
+
+' ------------------------------
+' FieldObject
+' ------------------------------
+FieldObject <|-- FieldGimmick
+FieldObject <|-- Furniture
+
+' ------------------------------
+' Town
+' ------------------------------
+Town <|-- Location
+Town <|-- Facility
+' --- 屋内 ---
+Facility *-- Furniture
+
+' ------------------------------
+' Item
+' ------------------------------
+Item <|-- Equipment
+Item <|-- Consumable
+' --- Equipment ---
+Equipment <|-- Weapon
+Equipment <|-- Armor
+
+' ------------------------------
+' Actor
+' ------------------------------
+Actor o-- Item : 所持
+Actor o-- Equipment : 装備
+Actor o-- Consumable : 使用
+
+@enduml

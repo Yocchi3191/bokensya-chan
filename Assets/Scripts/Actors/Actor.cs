@@ -1,17 +1,20 @@
 using System.Numerics;
 
-public abstract class Actor
+public class Actor : Object
 {
 	Vector2 currentPos;
 	int currentMapID;
 
-	protected bool CanMove(Vector2 pos)
+	public void Move(Vector2 actorPos, Vector2 range)
 	{
-		bool canMove;
-		Map map = Map(currentMapID);
-		if()
-		return canMove;
+		if (CanMove(actorPos, range))
+		{
+			Actor.Position += range;
+		}
 	}
 
+public bool CanMove(Vector2 currentPos, Vector2 range){
+
+}
 
 }
