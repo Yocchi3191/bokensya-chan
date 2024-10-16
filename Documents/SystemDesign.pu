@@ -1,10 +1,37 @@
-@startuml
+@startuml Overview
 ' ==============================
-' クラス
+' システム外観
 ' ==============================
-' ------------------------------
-' プレイヤーと敵
-' ------------------------------
+abstract Actor
+abstract PlayableActor
+abstract Enemy
+class Status
+class ItemManager
+abstract Item
+class Equipment
+class Consumable
+abstract Location
+class Town
+class Dungeon
+class Field
+
+Actor <|-- PlayableActor
+Actor <|-- Enemy
+Actor o-- Status
+PlayableActor <|-- ItemManager
+ItemManager o-- Item
+Item <|-- Equipment
+Item <|-- Consumable
+Location <|-- Town
+Location <|-- Dungeon
+Location <|-- Field
+
+@enduml
+
+@startuml Character
+' ==============================
+' キャラクター関連
+' ==============================
 abstract Actor{
 	+ BaseStatus BaseStatus
 	+ Vecotr2 position
@@ -12,47 +39,55 @@ abstract Actor{
 	+ void move(int x, int y)
 	+ void attack(Actor target)
 }
-class PlayableActor{
-}
+class PlayableActor{}
 abstract Enemy{}
-' --- 基礎ステータス ---
+
+' ------------------------------
+' Actor
+' ------------------------------
+Actor "1" <|-- "*" PlayableActor
+Actor "1" <|-- "*" Enemy
+Actor "1" *-- "*" Status
+
+' ------------------------------
+' Enemy
+' ------------------------------
+Enemy <|-- Goblin
+Enemy <|-- Slime
+Enemy <|-- AnyOtherEnemy
+
+@enduml
+
+@startuml Status
+' ==============================
+' ステータス関連
+' ==============================
+abstract Actor
+abstract PlayableActor
+
 struct BaseStatus{
 	int health
-	' TRPGっぽいステータス構成
-	' 体力
 	int CON
-	' 体格
 	int SIZ
-	' 敏捷
 	int DEX
-	' 魅力
 	int APP
-	' 知力
 	int INT
-	' 精神力
 	int POW
-	' 教養
 	int EDU
-	' 幸運
 	int LUK
-	' 自分が持ってる経験値
 	int EXP
-	' 倒した相手に与える経験値
 	int XP
 }
-' --- 戦闘ステータス ---
 struct CombatStatus{
 	int AttackPower
 	int MagicPower
 	int AttackResist
 	int MagicResist
 }
-' --- 生活ステータス ---
 struct LifeStatus{
 	int 信頼度
 	int スタミナ
 }
-' --- エロステ ---
 struct SexualStatus{
 	int 性欲
 	int えっち熟練度
@@ -66,8 +101,26 @@ struct ActivityCount{
 }
 
 ' ------------------------------
-' アイテム
+' Actor
 ' ------------------------------
+Actor "1" <|-- "*" PlayableActor
+Actor "1" *-- "1" ItemManager : Itemを管理
+Actor "1" *-- "1" BaseStatus : ステータスを管理
+Actor "1" *-- "1" CombatStatus : 戦闘時参照
+Actor "1" *-- "1" SexualStatus : えっち時やえっちイベントで参照
+
+' ------------------------------
+' PlayableActor
+' ------------------------------
+PlayableActor "1" *-- "1" LifeStatus
+PlayableActor "1" *-- "1" ActivityCount
+
+@enduml
+
+@startuml Item
+' ==============================
+' アイテム関連
+' ==============================
 class ItemManager{
 	+ Item[] items
 	+ item[] equipments
@@ -84,82 +137,122 @@ abstract Equipment{
 }
 ' 着脱機能
 ' 呪いの装備とかは「何もしないRemove」で実装する
-abstract Weapon{
-	+
-}
-abstract Armor{}
+abstract Weapon
+abstract Armor
+abstract Actor
 
 ' ------------------------------
-' ワールド
+' Item
 ' ------------------------------
-abstract Map{
+Item "1" o-- "*" Equipment : 装備
+Item "1" o-- "*" Consumable : 使用
+
+' ------------------------------
+' Equipment
+' ------------------------------
+Equipment "1" <|-- "*" Weapon
+Equipment "1" <|-- "*" Armor
+
+Actor "1" *-- "*" ItemManager
+
+' ------------------------------
+' ItemManagerとItem
+' ------------------------------
+ItemManager "1" o-- "*" Item : 所持
+
+' ------------------------------
+' Consumable
+' ------------------------------
+object Potion
+object Food
+object AnyOtherItems
+
+Consumable <|-- Potion
+Consumable <|-- Food
+Consumable <|-- AnyOtherItems
+
+@enduml
+
+@startuml World
+' ==============================
+' ワールド
+' ==============================
+abstract Location{
 	+ void loadMap()
 	+ void renderMap()
 }
 abstract FieldObject{}
 abstract Facility{}
-abstract Location{}
-
-' ==============================
-' 関係
-' ==============================
-' ------------------------------
-' Actor
-' ------------------------------
-Actor <|-- PlayableActor
-Actor <|-- Enemy
-Actor *-- ItemManager : Itemを管理
-Actor *-- BaseStatus : ステータスを管理
-Actor *-- CombatStatus : 戦闘時参照
-Actor *-- SexualStatus : えっち時やえっちイベントで参照
-PlayableActor *-- LifeStatus
+abstract Item
+abstract Enemy
 
 ' ------------------------------
-' Enemy
+' Location
 ' ------------------------------
-Enemy <|-- Goblin
-Enemy <|-- Slime
-Enemy <|-- AnyOtherEnemy
-
-' ------------------------------
-' Map
-' ------------------------------
-Map <|-- Town
-Map <|-- Dungeon
-Map <|-- Field
-Map <|-- FieldObject
+Location <|-- Town
+Location <|-- Dungeon
+Location <|-- Field
+Location *-- FieldObject
 ' --- Mapと他のクラス ---
-Map o-- Enemy : 出現敵
-Map o-- Item : フィールドアイテム
+Location o-- Enemy : 出現敵
+Location o-- Item : フィールドアイテム
 
 ' ------------------------------
 ' FieldObject
 ' ------------------------------
+object 家具
+object 岩
+object 罠
+
 FieldObject <|-- FieldGimmick
-FieldObject <|-- Furniture
+FieldObject <|-- Prop
+Prop -- 家具
+FieldGimmick -- 岩
+FieldGimmick -- 罠
 
 ' ------------------------------
 ' Town
 ' ------------------------------
-Town <|-- Location
 Town <|-- Facility
-' --- 屋内 ---
-Facility *-- Furniture
 
-' ------------------------------
-' Item
-' ------------------------------
-Item <|-- Equipment
-Item <|-- Consumable
-' --- Equipment ---
-Equipment <|-- Weapon
-Equipment <|-- Armor
+@enduml
 
-' ------------------------------
-' Actor
-' ------------------------------
-Actor o-- Item : 所持
-Actor o-- Equipment : 装備
-Actor o-- Consumable : 使用
+@startuml GameMode
+' ==============================
+' ゲームモード遷移
+' ==============================
+[*] --> StartMenu
+StartMenu --> Town
+StartMenu --> [*] : デスクトップに戻る
 
+Town --> StartMenu : ゲーム終了
+Town --> Adventure : 探索開始
+
+Adventure --> Battle : 戦闘イベント発生
+
+Battle --> Win : 戦闘に勝利
+Win --> Adventure
+
+Battle --> GameOver : 体力ゼロ
+
+StartMenu --> Option : オプションボタン押下
+Town --> Option : オプションボタン押下
+Adventure --> Option : オプションボタン押下
+@enduml
+
+@startuml Talk
+' ==============================
+' 会話イベント遷移
+' ==============================
+Town --> Talk : 会話イベント発生
+Talk --> Town : 会話終了
+Talk --> Adventure : 会話イベント終了
+
+Adventure --> Talk : 会話イベント発生
+Adventure --> Win : 勝利
+Adventure --> GameOver : 敗北
+
+Win --> Talk : 条件を満たした場合、イベントCGに遷移
+
+GameOver --> Talk
 @enduml
