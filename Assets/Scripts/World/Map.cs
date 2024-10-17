@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 public class Map
 {
-	int mapID;
-	int[] map;
-	Actor[] actors;
-	void Move(Vector2 pos, Vector2 range){
-
-	}
+	int width = 10;
+	int height = 10;
+	Vector2 map;
 }
