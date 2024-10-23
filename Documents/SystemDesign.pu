@@ -1,3 +1,44 @@
+@startuml ManagerTree
+left to right direction
+Unity -- GameManager
+
+GameManager -- InputManager
+GameManager -- TurnManager
+GameManager -- GameModeManager
+GameManager -- UIManager
+GameManager -- SaveDataManager
+
+TurnManager -- ActorTurn
+TurnManager -- EventManager
+ActorTurn -- PlayerTurn
+ActorTurn -- EnemyTurn
+ActorTurn -- NPCManager
+
+PlayerTurn -- ItemManager
+
+InputManager -- BattleInput
+InputManager -- MenuInput
+
+BattleInput -- BattleMenuInput
+
+MenuInput -- MenuModeInput
+
+MenuModeInput -- Start
+MenuModeInput -- Item
+MenuModeInput -- Equipment
+MenuModeInput -- Status
+
+GameModeManager -- Play
+GameModeManager -- Menu
+GameModeManager -- Pose
+
+UIManager -- PlayUI
+UIManager -- MenuUI
+UIManager -- PoseUI
+
+SaveDataManager -- Save
+@enduml
+
 @startuml Overview
 ' ==============================
 ' システム外観
