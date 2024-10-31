@@ -1,180 +1,144 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using System.Collections;
 
-// グリッドセルの基本情報を保持する構造体
-public struct GridPosition
+public class PlayerController : MonoBehaviour
 {
-	public int X { get; }
-	public int Y { get; }
+	[SerializeField] float moveSpeed = 5f;
+	[SerializeField] Grid grid; // Gridコンポーネントへの参照を追加
 
-	public GridPosition(int x, int y)
+	private PlayerInput playerInput;
+	private InputAction moveAction;
+	private bool isMoving;
+	private Vector2 input;
+
+	private void Awake()
 	{
-		X = x;
-		Y = y;
-	}
+		playerInput = GetComponent<PlayerInput>();
+		moveAction = playerInput.actions["Move"];
 
-	public Vector3 ToWorldPosition(float cellSize = 1f)
-	{
-		return new Vector3(X * cellSize, Y * cellSize, 0);
-	}
-
-	public static GridPosition FromWorldPosition(Vector3 worldPosition, float cellSize = 1f)
-	{
-		return new GridPosition(
-			Mathf.RoundToInt(worldPosition.x / cellSize),
-			Mathf.RoundToInt(worldPosition.y / cellSize)
-		);
-	}
-}
-
-// グリッドシステムを管理するクラス
-public class GridSystem : MonoBehaviour
-{
-	[SerializeField] private float cellSize = 1f;
-	private Dictionary<GridPosition, GridCell> gridCells = new Dictionary<GridPosition, GridCell>();
-
-	// グリッドの初期化
-	public void InitializeGrid(int width, int height)
-	{
-		for (int x = 0; x < width; x++)
+		// Gridコンポーネントが設定されていない場合は自動で取得
+		if (grid == null)
 		{
-			for (int y = 0; y < height; y++)
+			grid = FindObjectOfType<Grid>();
+		}
+
+		// 開始時にタイルの中心に移動
+		SnapToGridCenter();
+	}
+
+	/// <summary>
+	/// GameObjectがアクティブになったとき発動
+	/// </summary>
+	private void OnEnable()
+	{
+		moveAction.Enable();
+	}
+
+	/// <summary>
+	/// GameObjectが非アクティブになったとき発動
+	/// </summary>
+	private void OnDisable()
+	{
+		moveAction.Disable();
+	}
+
+	// 最も近いタイルの中心にスナップする
+	private void SnapToGridCenter()
+	{
+		Vector3Int cellPosition = grid.WorldToCell(transform.position);
+		transform.position = grid.GetCellCenterWorld(cellPosition);
+	}
+
+	private void Update()
+	{
+		if (!isMoving)
+		{
+			input = moveAction.ReadValue<Vector2>();
+			Vector2 discreteInput = GetDiscreteInput(input);
+
+			if (discreteInput != Vector2.zero)
 			{
-				var position = new GridPosition(x, y);
-				gridCells[position] = new GridCell(position);
+				// 現在位置のグリッドセル座標を取得
+				Vector3Int currentCell = grid.WorldToCell(transform.position);
+
+				// 移動先のセル座標を計算
+				Vector3Int targetCell = currentCell + new Vector3Int(
+					(int)discreteInput.x,
+					(int)discreteInput.y,
+					0
+				);
+
+				// セル座標からワールド座標（セルの中心位置）を取得
+				Vector3 targetPos = grid.GetCellCenterWorld(targetCell);
+
+				StartCoroutine(Move(targetPos));
 			}
 		}
 	}
 
-	// グリッドセルの取得
-	public GridCell GetCell(GridPosition position)
+	private Vector2 GetDiscreteInput(Vector2 rawInput)
 	{
-		return gridCells.TryGetValue(position, out var cell) ? cell : null;
-	}
-}
+		if (rawInput == Vector2.zero) return Vector2.zero;
 
-// グリッドセルの情報を管理するクラス
-public class GridCell
-{
-	public GridPosition Position { get; }
-	public bool IsWalkable { get; set; } = true;
-	public EntityBase OccupyingEntity { get; private set; }
-	public TileType TileType { get; set; }
-
-	// セルの追加情報（アイテム、罠など）
-	private List<IGridComponent> components = new List<IGridComponent>();
-
-	public GridCell(GridPosition position)
-	{
-		Position = position;
-	}
-
-	public bool SetEntity(EntityBase entity)
-	{
-		if (!IsWalkable || OccupyingEntity != null) return false;
-		OccupyingEntity = entity;
-		return true;
-	}
-
-	public void RemoveEntity()
-	{
-		OccupyingEntity = null;
-	}
-
-	public void AddComponent(IGridComponent component)
-	{
-		components.Add(component);
-	}
-
-	public T GetComponent<T>() where T : IGridComponent
-	{
-		return components.OfType<T>().FirstOrDefault();
-	}
-}
-
-// エンティティの基底クラス
-public abstract class EntityBase : MonoBehaviour
-{
-	protected GridPosition currentPosition;
-	protected GridSystem gridSystem;
-
-	public virtual bool TryMove(GridPosition newPosition)
-	{
-		var targetCell = gridSystem.GetCell(newPosition);
-		if (targetCell == null || !targetCell.IsWalkable || targetCell.OccupyingEntity != null)
-			return false;
-
-		// 現在のセルから削除
-		var currentCell = gridSystem.GetCell(currentPosition);
-		currentCell?.RemoveEntity();
-
-		// 新しいセルに設定
-		targetCell.SetEntity(this);
-		currentPosition = newPosition;
-
-		// World座標の更新
-		transform.position = newPosition.ToWorldPosition(gridSystem.CellSize);
-
-		return true;
-	}
-
-	public virtual void Initialize(GridSystem grid, GridPosition startPosition)
-	{
-		gridSystem = grid;
-		currentPosition = startPosition;
-		transform.position = startPosition.ToWorldPosition(gridSystem.CellSize);
-
-		var cell = gridSystem.GetCell(startPosition);
-		cell?.SetEntity(this);
-	}
-}
-
-// プレイヤークラスの例
-public class Player : EntityBase
-{
-	public PlayerStats Stats { get; private set; }
-	public Inventory Inventory { get; private set; }
-
-	protected override void Awake()
-	{
-		base.Awake();
-		Stats = new PlayerStats();
-		Inventory = new Inventory();
-	}
-
-	public override bool TryMove(GridPosition newPosition)
-	{
-		var success = base.TryMove(newPosition);
-		if (success)
+		if (Mathf.Abs(rawInput.x) > Mathf.Abs(rawInput.y))
 		{
-			// 移動後の処理（アイテム取得、トラップ発動など）
-			var cell = gridSystem.GetCell(newPosition);
-			var items = cell.GetComponent<ItemComponent>();
-			items?.OnPlayerEnter(this);
+			return new Vector2(Mathf.Sign(rawInput.x), 0);
 		}
-		return success;
-	}
-}
-
-// グリッドコンポーネントのインターフェース
-public interface IGridComponent
-{
-	void OnPlayerEnter(Player player);
-}
-
-// アイテムコンポーネントの例
-public class ItemComponent : IGridComponent
-{
-	public Item Item { get; }
-
-	public ItemComponent(Item item)
-	{
-		Item = item;
+		else
+		{
+			return new Vector2(0, Mathf.Sign(rawInput.y));
+		}
 	}
 
-	public void OnPlayerEnter(Player player)
+	private IEnumerator Move(Vector3 targetPos)
 	{
-		player.Inventory.AddItem(Item);
+		isMoving = true;
+
+		while ((targetPos - transform.position).sqrMagnitude > Mathf.Epsilon)
+		{
+			transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
+			yield return null;
+		}
+
+		transform.position = targetPos;
+		isMoving = false;
+	}
+
+	// デバッグ用：グリッドとの関係を可視化
+	private void OnDrawGizmosSelected()
+	{
+		if (!Application.isPlaying && grid != null)
+		{
+			// 現在位置のセル
+			Vector3Int currentCell = grid.WorldToCell(transform.position);
+			Vector3 cellCenter = grid.GetCellCenterWorld(currentCell);
+
+			// 現在のセルを赤で表示
+			Gizmos.color = Color.red;
+			Vector3 cellSize = grid.cellSize;
+			Gizmos.DrawWireCube(cellCenter, cellSize);
+
+			// 移動可能な4方向のセルを黄色で表示
+			Gizmos.color = Color.yellow;
+			Vector3Int[] directions = new Vector3Int[]
+			{
+				Vector3Int.up,
+				Vector3Int.right,
+				Vector3Int.down,
+				Vector3Int.left
+			};
+
+			foreach (Vector3Int dir in directions)
+			{
+				Vector3Int targetCell = currentCell + dir;
+				Vector3 targetCenter = grid.GetCellCenterWorld(targetCell);
+				Gizmos.DrawWireCube(targetCenter, cellSize);
+			}
+
+			// 現在位置からセルの中心までの線を描画
+			Gizmos.color = Color.blue;
+			Gizmos.DrawLine(transform.position, cellCenter);
+		}
 	}
 }
