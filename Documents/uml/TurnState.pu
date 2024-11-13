@@ -1,0 +1,33 @@
+@startuml
+title ターン回し
+skinparam Linetype ortho
+state "ターン開始" as StartTurn{
+	state "ターン開始イベントの処理" as StartTurnProcess
+	state "ターン開始処理終了" as EndStartTurnProcess
+}
+state "行動順決定" as SortActTurn
+state "プレイヤーターン" as PlayerProcess{
+	state "入力受付" as WaitInput
+	state "プレイヤー行動処理" as PlayerAct
+	state "プレイヤー行動による終了処理" as PlayerEndProcess
+}
+state "NPCターン" as NPCTurn{
+	state "NPC行動処理" as NPCAct
+	state "NPC行動による終了処理" as NPCEndProcess
+}
+state "ターン終了" as EndTrun{
+	state "ターン終了イベントの処理" as TurnEndProcess
+}
+
+[*] --> StartTurn
+StartTurnProcess <-- StartTurnProcess : 処理キューが無くなるまで繰り返し
+StartTurnProcess --> EndStartTurnProcess
+StartTurn --> SortActTurn
+SortActTurn --> PlayerProcess
+WaitInput --> PlayerAct
+PlayerAct --> PlayerEndProcess
+PlayerProcess --> NPCTurn
+NPCAct --> NPCEndProcess
+NPCTurn <-- NPCTurn : 行動待ちのNPCが\nいなくなるまで繰り返し
+NPCTurn --> EndTrun
+@enduml

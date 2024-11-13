@@ -1,0 +1,30 @@
+@startuml
+title 入力管理
+skinparam linetype ortho
+package Unity_InputSystem{
+	abstract ActionMaps
+	class PlayerInput{
+		+ Move
+		+ Attack
+		+ OpenMenu
+	}
+	class MenuInput{
+		+ Navigate
+		+ Submit
+		+ Cancel
+	}
+	class DialogInput{
+		+ Advance
+		+ FastAdvance
+		+ Skip
+		+ Backlog
+	}
+
+	ActionMaps <|-- PlayerInput
+	ActionMaps <|-- MenuInput
+	ActionMaps <|-- DialogInput
+
+	note right of ActionMaps : Stateパターン
+}
+
+@enduml

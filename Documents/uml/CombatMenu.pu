@@ -1,0 +1,19 @@
+@startuml
+title 戦闘メニュー
+skinparam Linetype ortho
+object Inventory
+object Equipement
+object System
+object Config
+
+object Skill
+note bottom of Skill : 技、魔法など
+
+object Ability
+note bottom of Ability : パッシブスキル
+
+object Statistics
+
+object CombatStatus
+object SexualStatus
+@enduml

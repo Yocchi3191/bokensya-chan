@@ -1,0 +1,20 @@
+@startuml
+title アクター
+skinparam Linetype ortho
+package InputSystem{
+	class PlayerInput
+}
+
+interface IGridPosition{
+	+ GetPosition() : int[]
+	+ GetDirection() : Direction
+	+ Move(int dirX, int dirY) : void
+	- CanMove() : bool
+}
+interface Status
+interface Equipment
+interface Inventory
+interface Skill
+interface Ability
+
+@enduml
