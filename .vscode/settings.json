@@ -56,5 +56,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "bokensha-chan.sln"
+	"dotnet.defaultSolution": "bokensha-chan.sln",
+	"gitdoc.enabled": true
 }
