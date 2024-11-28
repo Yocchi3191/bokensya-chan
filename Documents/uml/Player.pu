@@ -40,10 +40,6 @@ class InteractInputHandler{
 
 ' 関係
 IMovable <|-- Player : 実装
-IMovable <- PlayerInputHandler : 利用
-MonoBehavior <|-- InputHandlerComponent : 継承
-InputHandlerComponent --> IInputHandler : 利用
-IInputHandler <|-- PlayerInputHandler : 実装
-IInputHandler <|-- MenuInputHandler : 実装
+iin
 
 @enduml
