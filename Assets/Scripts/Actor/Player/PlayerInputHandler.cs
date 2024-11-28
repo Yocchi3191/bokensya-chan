@@ -9,7 +9,7 @@ namespace BokenshaChan
 
 		void Awake()
 		{
-			if (player == null) Debug.LogWarning("プレイヤーのアタッチ忘れてますよ");
+			if (player == null) player = GetComponent<Player>();
 		}
 		public void OnMove(InputAction.CallbackContext context)
 		{
