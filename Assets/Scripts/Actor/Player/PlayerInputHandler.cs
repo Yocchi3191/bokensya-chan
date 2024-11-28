@@ -15,8 +15,6 @@ namespace BokenshaChan
 		{
 			// Player null なら早期リターン
 			if (player == null) return;
-			// Performed でなければ早期リターン
-			if (!context.performed) return;
 
 			Vector2 input = context.ReadValue<Vector2>();
 			int x = (int)input.x;
