@@ -41,6 +41,7 @@ class InteractInputHandler{
 ' 関係
 IMovable <|-- Player : 実装
 IMovable <-- MoveInputHandler : 利用
+IInteract <
 
 IInputHandler <|-- MoveInputHandler : 実装
 IInputHandler <|-- InteractInputHandler : 実装
@@ -48,6 +49,6 @@ IInputHandler <|-- PlayerInputHandler : 実装
 
 IInteract <-- InteractInputHandler : 利用
 IIntaractable <-- InteractInputHandler : 参照
-IIntaractable <|-- InteractableObject
+IIntaractable <|-- InteractableObject : 実装
 
 @enduml
