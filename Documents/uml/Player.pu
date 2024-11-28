@@ -3,10 +3,12 @@ title プレイヤー
 skinparam Linetype ortho
 
 class Player{}
+interface 
 class PlayerInputHandler{}
 class MonoBehavior{
-	+ Awake() : 
-	+ Start() : void
+	- Awake() : void
+	- Start() : void
+	- Update() : void
 }
 
 @enduml
