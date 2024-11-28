@@ -23,10 +23,10 @@ namespace BokenshaChan
 			if (x != 0 || y != 0) player.Move(x, y);
 		}
 
-		public void OnInteract(InputAction.CallbackContext context){
-			if(!context.performed) return;
+		// public void OnInteract(InputAction.CallbackContext context){
+		// 	if(!context.performed) return;
 
-			player.Interact();
-		}
+		// 	player.Interact();
+		// }
 	}
 }

@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 
 namespace BokenshaChan
 {
-	public abstract class Actor : MonoBehaviour
+	public abstract class Actor : MonoBehaviour, IMovable
 	{
 		[SerializeField] float moveSpeed = 1.0f;
 		[SerializeField] Tilemap field;

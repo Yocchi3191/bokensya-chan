@@ -2,16 +2,28 @@
 title プレイヤー
 skinparam Linetype ortho
 
-class Player{}
-interface IPlayer{
-	+ Move(x, y) : void
-	+ Interact()
+' オブジェクト
+class Player{
+	+ Move(int,int) : void
+	+ Interacted() : void
 }
-class PlayerInputHandler{}
+interface IPlayer{
+	+ Move(int,int) : void
+	+ Interact(IIntaractable) : void
+}
+class PlayerInputHandler{
+	+ OnMove(InputAction) : void
+	+ OnInteract(InputAction) : void
+}
 class MonoBehavior{
 	- Awake() : void
 	- Start() : void
 	- Update() : void
 }
+
+' 関係
+IPlayer <|-- Player : 実装
+IPlayer <- PlayerInputHandler : 利用
+MonoBehavior <|-- PlayerInputHandler : 継承
 
 @enduml

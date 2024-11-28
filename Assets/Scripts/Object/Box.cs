@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BokenshaChan
 {
-	public class Box : Prop, IInteract
+	public class Box : Prop, IInteractable
 	{
 		int interactCount = 0;
 		string interactMessage;

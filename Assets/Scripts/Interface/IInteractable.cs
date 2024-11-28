@@ -1,8 +1,7 @@
 namespace BokenshaChan
 {
-	public interface IInteract
+	public interface IInteractable
 	{
-		public bool CanInteract();
 		public void Interact();
 	}
 }
