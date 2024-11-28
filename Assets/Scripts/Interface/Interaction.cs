@@ -5,7 +5,7 @@ namespace BokenshaChan
 	/// </summary>
 	public interface IInteract
 	{
-		public void Interact(IInteractable interactableObject);
+		public void Interact(IInteract interactableObject);
 	}
 
 	/// <summary>
