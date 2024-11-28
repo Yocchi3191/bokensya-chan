@@ -8,6 +8,9 @@ namespace BokenshaChan
 		public IMovable _player;
 		[SerializeField] private InputActionReference _holdMove;
 
+		private Vector2 _currentMoveInput;
+		private bool _isMoving;
+		private float _moveCheckInterval = 0.1f; // 移動チェックの間隔
 		void Awake()
 		{
 			_player = GetComponent<Player>();
@@ -17,21 +20,57 @@ namespace BokenshaChan
 				Debug.Log("ホールドアクションが登録できてないよ");
 				return;
 			}
-			_holdMove.action.performed += OnMove;
+			// 入力開始時のイベント
+			_holdMove.action.started += OnMoveStarted;
+			// 入力中のイベント
+			_holdMove.action.performed += OnMovePerformed;
+			// 入力終了時のイベント
+			_holdMove.action.canceled += OnMoveCanceled;
+
 			_holdMove.action.Enable();
 		}
-		public void OnMove(InputAction.CallbackContext context)
+		private void OnMoveStarted(InputAction.CallbackContext context)
 		{
-			// Player null なら早期リターン
-			if (_player == null) return;
+			_isMoving = true;
+			_currentMoveInput = context.ReadValue<Vector2>();
+			StartCoroutine(ContinuousMovementCoroutine());
+		}
 
-			Vector2 input = context.ReadValue<Vector2>();
-			int x = (int)input.x;
-			int y = (int)input.y;
+		private void OnMovePerformed(InputAction.CallbackContext context)
+		{
+			_currentMoveInput = context.ReadValue<Vector2>();
+		}
 
-			// 入力があれば移動関数を実行
-			if (x != 0 || y != 0) _player.Move(x, y);
-			Debug.Log($"ボタン状態: {context.phase}");
+		private void OnMoveCanceled(InputAction.CallbackContext context)
+		{
+			_isMoving = false;
+			_currentMoveInput = Vector2.zero;
+		}
+
+		private System.Collections.IEnumerator ContinuousMovementCoroutine()
+		{
+			while (_isMoving)
+			{
+				int x = Mathf.RoundToInt(_currentMoveInput.x);
+				int y = Mathf.RoundToInt(_currentMoveInput.y);
+
+				if (x != 0 || y != 0)
+				{
+					_player.Move(x, y);
+				}
+
+				yield return new WaitForSeconds(_moveCheckInterval);
+			}
+		}
+
+		private void OnDisable()
+		{
+			if (_holdMove != null && _holdMove.action != null)
+			{
+				_holdMove.action.started -= OnMoveStarted;
+				_holdMove.action.performed -= OnMovePerformed;
+				_holdMove.action.canceled -= OnMoveCanceled;
+			}
 		}
 
 		// public void OnInteract(InputAction.CallbackContext context){
