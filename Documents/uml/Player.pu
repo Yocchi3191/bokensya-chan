@@ -19,21 +19,22 @@ interface IIntaractable{
 	+ GetReaction() : void
 }
 
-class MonoBehavior
-class InputHandlerComponent{}
 interface IInputHandler{
 	+ Enable() : void
 	+ Disable() : void
-	+ Move() : void
 }
 class PlayerInputHandler{
-	+ OnMove(InputAction) : void
-	+ OnInteract(InputAction) : void
+	- List<IInputHandler> _inputHandlers
+	+ OnEnable() : void
+	+ OnDisable() : void
+}
+class MoveInputHandler{
+	+ InputAction
 }
 
 ' 関係
-IPlayer <|-- Player : 実装
-IPlayer <- PlayerInputHandler : 利用
+IMovable <|-- Player : 実装
+IMovable <- PlayerInputHandler : 利用
 MonoBehavior <|-- InputHandlerComponent : 継承
 InputHandlerComponent --> IInputHandler : 利用
 IInputHandler <|-- PlayerInputHandler : 実装
