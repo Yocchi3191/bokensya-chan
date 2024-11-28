@@ -33,7 +33,9 @@ class MoveInputHandler{
 	- 動きに使う関数()
 }
 class InteractInputHandler{
-	- 
+	- インタラクトに使う変数
+	- InputActionReference インタラクト入力
+	- インタラクト関数()
 }
 
 ' 関係
