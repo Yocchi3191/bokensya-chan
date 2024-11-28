@@ -29,7 +29,7 @@ class PlayerInputHandler{
 	+ OnDisable() : void
 }
 class MoveInputHandler{
-	
+	- IMovableの動きに関する関数群
 }
 
 ' 関係
