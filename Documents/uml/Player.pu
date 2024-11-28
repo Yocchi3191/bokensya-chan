@@ -33,7 +33,9 @@ class MoveInputHandler{
 	- IMovable _movable
 	- Vector2 _currentMoveInput
 	- bool _isMoving
-	- float _ moveCheck
+	- float _moveCheckInterval
+	- Awake() : void 
+	+ 
 }
 
 ' 関係
