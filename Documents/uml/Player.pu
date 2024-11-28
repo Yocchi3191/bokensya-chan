@@ -5,25 +5,38 @@ skinparam Linetype ortho
 ' オブジェクト
 class Player{
 	+ Move(int,int) : void
-	+ Interacted() : void
+	+ Interact() : void
 }
-interface IPlayer{
+
+' インタフェース
+interface IMovable{
 	+ Move(int,int) : void
+}
+interface IInteract{
 	+ Interact(IIntaractable) : void
+}
+interface IIntaractable{
+	+ GetReaction() : void
+}
+
+class MonoBehavior
+class InputHandlerComponent{}
+interface IInputHandler{
+	+ Enable() : void
+	+ Disable() : void
+	+ Move() : void
 }
 class PlayerInputHandler{
 	+ OnMove(InputAction) : void
 	+ OnInteract(InputAction) : void
 }
-class MonoBehavior{
-	- Awake() : void
-	- Start() : void
-	- Update() : void
-}
 
 ' 関係
 IPlayer <|-- Player : 実装
 IPlayer <- PlayerInputHandler : 利用
-MonoBehavior <|-- PlayerInputHandler : 継承
+MonoBehavior <|-- InputHandlerComponent : 継承
+InputHandlerComponent --> IInputHandler : 利用
+IInputHandler <|-- PlayerInputHandler : 実装
+IInputHandler <|-- MenuInputHandler : 実装
 
 @enduml
