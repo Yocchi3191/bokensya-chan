@@ -9,8 +9,8 @@ namespace BokenshaChan
 		[SerializeField] private InputActionReference _holdMove;
 
 		private Vector2 _currentMoveInput;
-		private bool _isMoving;
-		private float _moveCheckInterval = 0.1f; // 移動チェックの間隔
+		[SerializeField] private bool _isMoving;
+		[SerializeField] private float _moveCheckInterval = 0.1f; // 移動チェックの間隔
 		void Awake()
 		{
 			_player = GetComponent<Player>();
