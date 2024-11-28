@@ -9,8 +9,7 @@ namespace BokenshaChan
 		int interactCount = 0;
 		string interactMessage;
 
-		public bool CanInteract() { return true; }
-		public void Interact()
+		public void ReturnReaction()
 		{
 			if (interactCount < 1)
 			{

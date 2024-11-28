@@ -9,11 +9,11 @@ namespace BokenshaChan
 		[SerializeField] float moveSpeed = 1.0f;
 		[SerializeField] Tilemap field;
 		Rigidbody2D rb2D;
-		public bool IsActing { get; protected set; }
+		private bool isActing;
 		private void Awake()
 		{
 			rb2D = GetComponent<Rigidbody2D>();
-			IsActing = false;
+			isActing = false;
 		}
 
 		// ==============================
@@ -25,7 +25,7 @@ namespace BokenshaChan
 		}
 		protected IEnumerator MoveCoroutine(int xDir, int yDir)
 		{
-			if (IsActing) yield break;
+			if (isActing) yield break;
 
 			Vector3Int start = field.WorldToCell(transform.position);
 			Vector3Int end = start + new Vector3Int(xDir, yDir, 0);
@@ -37,10 +37,10 @@ namespace BokenshaChan
 				yield break;
 			}
 
-			IsActing = true;
+			isActing = true;
 			Debug.Log($"スタート位置: {start} \n 目標地点: {end}");
 			yield return StartCoroutine(SmoothMovement(end));
-			IsActing = false;
+			isActing = false;
 		}
 
 		/// <summary>
