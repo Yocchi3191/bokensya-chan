@@ -9,15 +9,23 @@ namespace BokenshaChan
 
 		void Awake()
 		{
-			if (player == null) player = GetComponent<Player>();
+			player = GetComponent<Player>();
 		}
 		public void OnMove(InputAction.CallbackContext context)
 		{
+			if (player == null)
+			{
+				Debug.Log("プレイヤーが無いよ");
+				return;
+			}
 			Debug.Log("OnMoveが呼ばれたよ");
 
 			// Performed でなければ早期リターン
-			if (!context.performed) return;
-
+			if (!context.performed)
+			{
+				Debug.Log("performedでは無いらしい");
+				return;
+			}
 			Vector2 input = context.ReadValue<Vector2>();
 			int x = (int)input.x;
 			int y = (int)input.y;
