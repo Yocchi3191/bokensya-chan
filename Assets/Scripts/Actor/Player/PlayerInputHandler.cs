@@ -54,7 +54,7 @@ namespace BokenshaChan
 				int x = Mathf.RoundToInt(_currentMoveInput.x);
 				int y = Mathf.RoundToInt(_currentMoveInput.y);
 
-				if (x != 0 || y != 0)
+				if ((x != 0 && y == 0) || (x == 0 && y != 0))
 				{
 					_player.Move(x, y);
 				}
