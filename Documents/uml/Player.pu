@@ -25,12 +25,15 @@ interface IInputHandler{
 }
 class PlayerInputHandler{
 	- List<IInputHandler> _inputHandlers
-	+ OnEnable() : void
-	+ OnDisable() : void
+	+
 }
 class MoveInputHandler{
 	- 動きに使う変数
+	- InputActionReference 動きの入力
 	- 動きに使う関数()
+}
+class InteractInputHandler{
+	- 
 }
 
 ' 関係
