@@ -18,7 +18,7 @@ namespace BokenshaChan
 				Debug.Log("プレイヤーが無いよ");
 				return;
 			}
-			Debug.Log("OnMoveが呼ばれたよ");
+			Debug.Log($"OnMoveが呼ばれたよ: {context.phase}");
 
 			// Performed でなければ早期リターン
 			if (!context.performed)
