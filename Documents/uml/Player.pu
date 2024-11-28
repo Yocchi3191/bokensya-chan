@@ -4,6 +4,9 @@ skinparam Linetype ortho
 
 class Player{}
 class PlayerInputHandler{}
-
+class MonoBehavior{
+	+ Awake() : 
+	+ Start() : void
+}
 
 @enduml
