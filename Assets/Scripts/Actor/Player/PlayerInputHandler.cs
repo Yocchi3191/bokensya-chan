@@ -5,7 +5,7 @@ namespace BokenshaChan
 {
 	public class PlayerInputHandler : MonoBehaviour
 	{
-		[SerializeField] IMovable player;
+		public IMovable player;
 
 		void Awake()
 		{
