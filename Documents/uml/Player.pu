@@ -3,7 +3,10 @@ title プレイヤー
 skinparam Linetype ortho
 
 class Player{}
-interface 
+interface IPlayer{
+	+ Move(x, y) : void
+	+ Interact()
+}
 class PlayerInputHandler{}
 class MonoBehavior{
 	- Awake() : void
