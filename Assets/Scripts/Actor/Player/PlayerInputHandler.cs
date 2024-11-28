@@ -13,6 +13,8 @@ namespace BokenshaChan
 		}
 		public void OnMove(InputAction.CallbackContext context)
 		{
+			Debug.Log("OnMoveが呼ばれたよ");
+
 			// Performed でなければ早期リターン
 			if (!context.performed) return;
 
