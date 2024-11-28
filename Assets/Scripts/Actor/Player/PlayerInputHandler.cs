@@ -22,6 +22,7 @@ namespace BokenshaChan
 
 			// 入力があれば移動関数を実行
 			if (x != 0 || y != 0) player.Move(x, y);
+			Debug.Log($"ボタン状態: {context.phase}");
 		}
 
 		// public void OnInteract(InputAction.CallbackContext context){
