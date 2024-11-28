@@ -29,13 +29,7 @@ class PlayerInputHandler{
 	+ OnDisable() : void
 }
 class MoveInputHandler{
-	- InputActionReference _moveAction
-	- IMovable _movable
-	- Vector2 _currentMoveInput
-	- bool _isMoving
-	- float _moveCheckInterval
-	- Awake() : void 
-	+ 
+	
 }
 
 ' 関係
