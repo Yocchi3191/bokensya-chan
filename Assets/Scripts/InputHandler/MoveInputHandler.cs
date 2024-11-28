@@ -12,6 +12,9 @@ namespace BokenshaChan
 		[SerializeField] private float _moveCheckInterval = 0.1f;
 		private void Awake()
 		{
+			// このスクリプトがアタッチされているオブジェクトについている
+			// IMovableを実装しているコンポーネントを取得する。
+			// ex.) Player : IMovable なら Playerコンポーネントを取得
 			_movable = GetComponent<IMovable>();
 		}
 	}
