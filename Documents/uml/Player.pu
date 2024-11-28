@@ -40,8 +40,11 @@ class InteractInputHandler{
 
 ' 関係
 IMovable <|-- Player : 実装
+IMovable <-- move
+
 IInputHandler <|-- MoveInputHandler : 実装
 IInputHandler <|-- InteractInputHandler : 実装
-IInputHandler <|-- 
+IInputHandler <|-- PlayerInputHandler : 実装
+
 
 @enduml
