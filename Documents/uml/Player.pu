@@ -29,7 +29,10 @@ class PlayerInputHandler{
 	+ OnDisable() : void
 }
 class MoveInputHandler{
-	+ InputAction
+	+ InputActionReference _moveAction
+	- IMovable _movable
+	- Vector2 _currentMoveInput
+	- 
 }
 
 ' 関係
