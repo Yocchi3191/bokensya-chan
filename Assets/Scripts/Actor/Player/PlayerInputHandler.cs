@@ -5,10 +5,11 @@ namespace BokenshaChan
 {
 	public class PlayerInputHandler : MonoBehaviour
 	{
-		Player player;
-		private void Awake()
+		[SerializeField] IMovable player;
+
+		void Awake()
 		{
-			player = GetComponent<Player>();
+			if (player == null) Debug.LogWarning("プレイヤーのアタッチ忘れてますよ");
 		}
 		public void OnMove(InputAction.CallbackContext context)
 		{
