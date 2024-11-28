@@ -13,19 +13,11 @@ namespace BokenshaChan
 		}
 		public void OnMove(InputAction.CallbackContext context)
 		{
-			if (player == null)
-			{
-				Debug.Log("プレイヤーが無いよ");
-				return;
-			}
-			Debug.Log($"OnMoveが呼ばれたよ: {context.phase}");
-
+			// Player null なら早期リターン
+			if (player == null) return;
 			// Performed でなければ早期リターン
-			if (!context.performed)
-			{
-				Debug.Log("performedでは無いらしい");
-				return;
-			}
+			if (!context.performed) return;
+
 			Vector2 input = context.ReadValue<Vector2>();
 			int x = (int)input.x;
 			int y = (int)input.y;
