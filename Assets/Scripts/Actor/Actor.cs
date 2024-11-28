@@ -8,6 +8,7 @@ namespace BokenshaChan
 	{
 		[SerializeField] float moveSpeed = 1.0f;
 		[SerializeField] Tilemap field;
+		[SerializeField] float adjustDist = 0.01f;
 		Rigidbody2D rb2D;
 		private bool isActing;
 		private void Awake()
@@ -50,7 +51,7 @@ namespace BokenshaChan
 		protected IEnumerator SmoothMovement(Vector3Int end)
 		{
 			Vector3 endPos = field.GetCellCenterWorld(end);
-			while (Vector3.Distance(transform.position, endPos) > 0.01f)
+			while (Vector3.Distance(transform.position, endPos) > adjustDist)
 			{
 				Vector3 newPosition = Vector3.MoveTowards(
 					transform.position,
