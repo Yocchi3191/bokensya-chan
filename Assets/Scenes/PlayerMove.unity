@@ -1903,6 +1903,14 @@ PrefabInstance:
       propertyPath: field
       value: 
       objectReference: {fileID: 983842913}
+    - target: {fileID: 3156907641446991619, guid: 710b19300fa979142a41aacc523d1d99, type: 3}
+      propertyPath: _hold
+      value: 
+      objectReference: {fileID: 5547437539743113950, guid: 691072c4e664f5145908a47123e343ff, type: 3}
+    - target: {fileID: 3156907641446991619, guid: 710b19300fa979142a41aacc523d1d99, type: 3}
+      propertyPath: _holdMove
+      value: 
+      objectReference: {fileID: 5547437539743113950, guid: 691072c4e664f5145908a47123e343ff, type: 3}
     - target: {fileID: 3599203102140565151, guid: 710b19300fa979142a41aacc523d1d99, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

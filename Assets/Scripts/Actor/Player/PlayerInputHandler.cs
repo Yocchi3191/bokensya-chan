@@ -6,19 +6,19 @@ namespace BokenshaChan
 	public class PlayerInputHandler : MonoBehaviour
 	{
 		public IMovable _player;
-		[SerializeField] private InputActionReference _hold;
+		[SerializeField] private InputActionReference _holdMove;
 
 		void Awake()
 		{
 			_player = GetComponent<Player>();
 
-			if (_hold == null)
+			if (_holdMove == null)
 			{
 				Debug.Log("ホールドアクションが登録できてないよ");
 				return;
 			}
-			_hold.action.performed += OnMove;
-			_hold.action.Enable();
+			_holdMove.action.performed += OnMove;
+			_holdMove.action.Enable();
 		}
 		public void OnMove(InputAction.CallbackContext context)
 		{
