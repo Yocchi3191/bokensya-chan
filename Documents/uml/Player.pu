@@ -46,6 +46,7 @@ IInputHandler <|-- MoveInputHandler : 実装
 IInputHandler <|-- InteractInputHandler : 実装
 IInputHandler <|-- PlayerInputHandler : 実装
 
-IIn
+IInteract <-- InteractInputHandler : 利用
+IIntaractable <-- 
 
 @enduml
