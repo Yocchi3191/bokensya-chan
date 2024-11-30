@@ -1892,6 +1892,10 @@ PrefabInstance:
       propertyPath: field
       value: 
       objectReference: {fileID: 983842913}
+    - target: {fileID: 3118977078142472648, guid: 710b19300fa979142a41aacc523d1d99, type: 3}
+      propertyPath: _moveCheckInterval
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 3599203102140565151, guid: 710b19300fa979142a41aacc523d1d99, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
