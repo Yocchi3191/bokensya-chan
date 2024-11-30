@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 8723405227386507115}
   - component: {fileID: 2925682687137145075}
   - component: {fileID: 3156907641446991619}
+  - component: {fileID: 3118977078142472648}
+  - component: {fileID: 6505171211238589816}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -30,7 +32,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5387118715087884959}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -211,35 +213,11 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3156907641446991619}
-        m_TargetAssemblyTypeName: BokenshaChan.PlayerInputHandler, Assembly-CSharp
-        m_MethodName: OnMove
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: f39f7e9d-c228-4700-9e20-f7342779c494
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3156907641446991619}
-        m_TargetAssemblyTypeName: BokenshaChan.PlayerInputHandler, Assembly-CSharp
-        m_MethodName: OnInteract
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 6c2c8277-c0ff-458b-91ef-a387119ee84b
     m_ActionName: Pleyer/New action
   m_NeverAutoSwitchControlSchemes: 0
@@ -274,3 +252,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9282f6d32e80bce4da34472225d925de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3118977078142472648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5387118715087884959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b53a39a22cbb654a9c5caf30dbb6722, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _moveAction: {fileID: 5547437539743113950, guid: 691072c4e664f5145908a47123e343ff, type: 3}
+  _moveCheckInterval: 0.5
+--- !u!114 &6505171211238589816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5387118715087884959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c5bf14d648798b4081cee522b2856d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interactAction: {fileID: 3921128801108240578, guid: 691072c4e664f5145908a47123e343ff, type: 3}
