@@ -25,7 +25,6 @@ interface IInputHandler{
 }
 class PlayerInputHandler{
 	- List<IInputHandler> _inputHandlers
-	+
 }
 class MoveInputHandler{
 	- 動きに使う変数
@@ -45,7 +44,8 @@ IInteract <|-- Player : 実装
 
 IInputHandler <|-- MoveInputHandler : 実装
 IInputHandler <|-- InteractInputHandler : 実装
-IInputHandler <|-- PlayerInputHandler : 実装
+PlayerInputHandler o-- MoveInputHandler : 所持
+PlayerInputHandler o-- InteractInputHandler : 所持
 
 IInteract <-- InteractInputHandler : 利用
 IIntaractable <-- InteractInputHandler : 参照
