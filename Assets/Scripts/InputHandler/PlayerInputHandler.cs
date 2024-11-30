@@ -12,8 +12,8 @@ namespace BokenshaChan
 		{
 			_inputHandlers = new List<IInputHandler>
 		{
-			gameObject.AddComponent<MoveInputHandler>(),
-			gameObject.AddComponent<InteractInputHandler>()
+			gameObject.GetComponent<MoveInputHandler>(),
+			gameObject.GetComponent<InteractInputHandler>()
             // 必要に応じて他のハンドラーを追加
         };
 		}
