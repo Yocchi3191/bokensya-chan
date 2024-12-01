@@ -65,5 +65,7 @@ namespace BokenshaChan
 			// 誤差を修正
 			transform.position = endPos;
 		}
+
+		public abstract void StartTurn();
 	}
 }

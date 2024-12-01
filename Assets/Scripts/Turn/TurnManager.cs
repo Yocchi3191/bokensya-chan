@@ -4,13 +4,11 @@ using UnityEngine;
 
 namespace BokenshaChan
 {
-	public class TurnManager : MonoBehaviour
+	public class TurnManager
 	{
-		Queue<Actor> actors;
-		void StartTurnProcess()
+		public void StartTurnProcess(MonoBehaviour mono)
 		{
-			StartCoroutine(StartTurn());
-
+			mono.StartCoroutine(StartTurn());
 		}
 
 		IEnumerator StartTurn()
@@ -18,13 +16,20 @@ namespace BokenshaChan
 			yield return null;
 		}
 
-		void EndEndTurnProcess()
+		public void EndEndTurnProcess(MonoBehaviour mono)
 		{
+			StartTurnProcess(mono);
 		}
 
 		IEnumerator EndTurn()
 		{
 			yield return null;
 		}
+
+		public void StartActorTurs(Actor actor)
+		{
+			actor.StartTurn();
+		}
+
 	}
 }
