@@ -1,14 +1,13 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace BokenshaChan
 {
-	public class TurnManager
+	public class TurnManager : MonoBehaviour
 	{
-		public void StartTurnProcess(MonoBehaviour mono)
+		public void StartTurnProcess()
 		{
-			mono.StartCoroutine(StartTurn());
+			StartCoroutine(StartTurn());
 		}
 
 		IEnumerator StartTurn()
@@ -16,9 +15,9 @@ namespace BokenshaChan
 			yield return null;
 		}
 
-		public void EndEndTurnProcess(MonoBehaviour mono)
+		public void EndEndTurnProcess()
 		{
-			StartTurnProcess(mono);
+			StartTurnProcess();
 		}
 
 		IEnumerator EndTurn()
