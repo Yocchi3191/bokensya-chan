@@ -1,11 +1,12 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BokenshaChan
 {
 	public class TurnManager : MonoBehaviour
 	{
-		Player player;
+		Queue<Actor> actors;
 		void StartTurnProcess()
 		{
 			StartCoroutine(StartTurn());
@@ -17,10 +18,13 @@ namespace BokenshaChan
 			yield return null;
 		}
 
-		IEnumerator EndStartTurn()
+		void EndEndTurnProcess()
+		{
+		}
+
+		IEnumerator EndTurn()
 		{
 			yield return null;
 		}
-
 	}
 }
