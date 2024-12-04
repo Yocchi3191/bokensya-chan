@@ -3,32 +3,10 @@ using UnityEngine;
 
 namespace BokenshaChan
 {
-	public class TurnManager : MonoBehaviour
+	public abstract class TurnManager : MonoBehaviour
 	{
-		public void StartTurnProcess()
-		{
-			StartCoroutine(StartTurn());
-		}
-
-		IEnumerator StartTurn()
-		{
-			yield return null;
-		}
-
-		public void EndEndTurnProcess()
-		{
-			StartTurnProcess();
-		}
-
-		IEnumerator EndTurn()
-		{
-			yield return null;
-		}
-
-		public void StartActorTurs(Actor actor)
-		{
-			actor.StartTurn();
-		}
-
+		public abstract void ProcessTurn(Actor actor);
+		protected abstract IEnumerator StartTurn(Actor actor);
+		protected abstract IEnumerator EndTurn(Actor actor);
 	}
 }

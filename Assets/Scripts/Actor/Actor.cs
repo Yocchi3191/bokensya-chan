@@ -11,6 +11,7 @@ namespace BokenshaChan
 		[SerializeField] float adjustDist = 0.01f;
 		Rigidbody2D rb2D;
 		private bool isActing;
+		private ITurnManager turnManager;
 		private void Awake()
 		{
 			rb2D = GetComponent<Rigidbody2D>();
@@ -67,5 +68,6 @@ namespace BokenshaChan
 		}
 
 		public abstract void StartTurn();
+
 	}
 }

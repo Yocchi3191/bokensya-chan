@@ -1,0 +1,65 @@
+@startuml
+title プレイヤーを動かす
+skinparam Linetype ortho
+class GameManager{
+	- TurnManager turnManager
+	- ActorManager actorManager
+	+ StartTurn() : void
+	+ UpdateTurn() : void
+}
+interface ITurnManager{
+	ProcessTurn(Actor) : void
+}
+class TurnManager{
+	+ StartTurn() : void
+	+ UpdateTurn() : void
+	+ ProcessTurn() : void
+}
+class ActorManager{
+	+ List<Actor> actors
+}
+
+interface IInputHandler{
+	+ Enable() : void
+	+ Disable() : void
+}
+class Player{
+	- PlayerInputHandler handler
+	- PlayerTurnManager turnManager
+}
+class PlayerTurnManager{
+	+ ProcessTurn() : void
+	- StartTurn() : IEnumerator
+	- WaitInput() : IEnumerator
+	- EndTurn() : IEnumerator
+}
+class PlayerInputHandler{
+	- List<IInputHandler> handlers
+	+ Enable() : void
+	+ Disable() : void
+}
+class MoveInputHandler{
+	- OnMove() : void
+}
+class InteractInputHandler{
+	- OnInteract() : void
+}
+
+GameManager o-- TurnManager : 所持
+GameManager o-- ActorManager : 所持
+
+ITurnManager <|-- TurnManager : 実装
+ITurnManager <|-- PlayerTurnManager : 実装
+IInputHandler <|-- PlayerInputHandler : 実装
+
+ActorManager o-- Player : 管理
+Player o-- PlayerTurnManager : 所持
+Player o-- PlayerInputHandler : 所持
+
+PlayerInputHandler o-- MoveInputHandler : 所持
+PlayerInputHandler o-- InteractInputHandler : 所持
+IInputHandler <|-- MoveInputHandler : 実装
+IInputHandler <|-- InteractInputHandler : 実装
+Unity.InputSystem <--- MoveInputHandler : 購読
+Unity.InputSystem <--- InteractInputHandler : 購読
+@enduml
