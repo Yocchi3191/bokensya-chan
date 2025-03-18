@@ -1,6 +1,6 @@
 namespace BokenshaChan
 {
-	public class Player : Actor
+	public class Player
 	{
 		
 	}

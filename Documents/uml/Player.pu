@@ -1,0 +1,54 @@
+@startuml
+title プレイヤー
+skinparam Linetype ortho
+
+' オブジェクト
+class Player{
+	+ Move(int,int) : void
+	+ Interact() : void
+}
+
+' インタフェース
+interface IMovable{
+	+ Move(int,int) : void
+}
+interface IInteract{
+	+ Interact(IIntaractable) : void
+}
+interface IIntaractable{
+	+ GetReaction() : void
+}
+
+interface IInputHandler{
+	+ Enable() : void
+	+ Disable() : void
+}
+class PlayerInputHandler{
+	- List<IInputHandler> _inputHandlers
+}
+class MoveInputHandler{
+	- 動きに使う変数
+	- InputActionReference 動きの入力
+	- 動きに使う関数()
+}
+class InteractInputHandler{
+	- インタラクトに使う変数
+	- InputActionReference インタラクト入力
+	- インタラクト関数()
+}
+
+' 関係
+IMovable <|-- Player : 実装
+IMovable <-- MoveInputHandler : 利用
+IInteract <|-- Player : 実装
+
+IInputHandler <|-- MoveInputHandler : 実装
+IInputHandler <|-- InteractInputHandler : 実装
+PlayerInputHandler o-- MoveInputHandler : 所持
+PlayerInputHandler o-- InteractInputHandler : 所持
+
+IInteract <-- InteractInputHandler : 利用
+IIntaractable <-- InteractInputHandler : 参照
+IIntaractable <|-- InteractableObject : 実装
+
+@enduml

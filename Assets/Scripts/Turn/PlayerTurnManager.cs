@@ -9,16 +9,16 @@ namespace BokenshaChan
 		{
 
 		}
-		private override IEnumerator StartTurn(Actor actor)
+		protected override IEnumerator StartTurn(Actor actor)
 		{
-			
+			yield return null;
 		}
-		private override IEnumerator EndTurn(Actor actor)
+		protected override IEnumerator EndTurn(Actor actor)
 		{
 			yield return null;
 		}
 		private IEnumerator WaitInput(){
-			yield return 
+			yield return null;
 		}
 	}
 }
